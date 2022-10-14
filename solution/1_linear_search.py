@@ -4,5 +4,5 @@ class Search:
         for i, n in enumerate(nums):
             if n == target:
                 return i
-        return -1
+        return None
 

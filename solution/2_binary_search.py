@@ -11,4 +11,4 @@ class Search:
                 hi = mid
             else:
                 lo = mid + 1
-        return -1
+        return None
