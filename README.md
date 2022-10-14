@@ -12,4 +12,4 @@ Why leetcode, if you can write your own?
 
 ## Roadmap
 
-- [ ] Create a minimal proof of concept
+- [x] Create a minimal proof of concept
