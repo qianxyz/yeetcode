@@ -1,6 +1,10 @@
 solution:
   class: Search
-  method: binary_search
+  method:
+    name: binary_search
+    args:
+      - nums
+      - target
 
 test cases:
 

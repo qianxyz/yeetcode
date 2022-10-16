@@ -1,6 +1,10 @@
 solution:
   class: Search
-  method: linear_search
+  method:
+    name: linear_search
+    args:
+      - nums
+      - target
 
 test cases:
 
