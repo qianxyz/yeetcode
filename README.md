@@ -13,7 +13,8 @@ Why leetcode, if you can write your own?
 ## Roadmap
 
 - [x] Create a minimal proof of concept
-- [ ] Solution files auto-generation
+- [x] Solution files auto-generation
+- [ ] Subcommand to list problems and add new ones
 - [ ] Data structures serde
 - [ ] Multiple methods test routine
 - [ ] CI checking the problem set integrity
