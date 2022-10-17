@@ -57,8 +57,11 @@ class ProblemList:
         self.plist[max_id + 1] = name
         with open(_PROBLEM_LIST, 'w') as f:
             yaml.safe_dump(self.plist, f)
-        with open(_CONFIG_PATH.format(self.get_title(max_id + 1)), 'w') as f:
+
+        cfg_path = _CONFIG_PATH.format(self.get_title(max_id + 1))
+        with open(cfg_path, 'w') as f:
             f.write(_CONFIG_TEMPLATE)
+        print(f"config template generated at {cfg_path}")
 
 
 class Problem:
