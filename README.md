@@ -18,3 +18,4 @@ Why leetcode, if you can write your own?
 - [ ] Data structures serde
 - [ ] Multiple methods test routine
 - [ ] CI checking the problem set integrity
+- [ ] Prettify user messages
