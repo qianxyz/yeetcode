@@ -15,11 +15,21 @@ class ProblemList:
 
     def __init__(self) -> None:
         with open(self._PATH) as f:
-            self.plist = yaml.safe_load(f)
+            self.plist: dict = yaml.safe_load(f)
 
     def get_title(self, pid: int) -> str:
         name = self.plist[pid]
         return f"{pid}_{name}"
+
+    def __str__(self) -> str:
+        return '\n'.join(f"{id}: {name}" for id, name in self.plist.items())
+
+    def add_problem(self, name):
+        max_id = max(self.plist)
+        self.plist[max_id + 1] = name
+        with open(self._PATH, 'w') as f:
+            yaml.safe_dump(self.plist, f)
+        # TODO: create template problem config
 
 
 class Problem:
@@ -83,16 +93,15 @@ if __name__ == '__main__':
     subcommand = sys.argv[1]
     if subcommand == 'generate':
         pid = int(sys.argv[2])
-        problem = Problem(pid)
-        problem.generate()
+        Problem(pid).generate()
     elif subcommand == 'run':
         pid = int(sys.argv[2])
-        problem = Problem(pid)
-        problem.run()
+        Problem(pid).run()
     elif subcommand == 'list':
-        pass # todo
+        print(ProblemList())
     elif subcommand == 'add':
-        pass # todo
+        name = sys.argv[2]
+        ProblemList().add_problem(name)
     else:
         eprint(f"unknown subcommand: {subcommand}")
         exit(1)
