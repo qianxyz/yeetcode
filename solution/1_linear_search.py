@@ -5,4 +5,3 @@ class Search:
             if n == target:
                 return i
         return None
-
