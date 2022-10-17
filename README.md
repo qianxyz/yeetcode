@@ -14,7 +14,7 @@ Why leetcode, if you can write your own?
 
 - [x] Create a minimal proof of concept
 - [x] Solution files auto-generation
-- [ ] Subcommand to list problems and add new ones
+- [x] Subcommand to list problems and add new ones
 - [ ] Data structures serde
 - [ ] Multiple methods test routine
 - [ ] CI checking the problem set integrity

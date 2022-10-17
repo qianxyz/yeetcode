@@ -4,6 +4,36 @@ import sys
 import yaml
 
 
+_PROBLEM_LIST = "problem.yaml"
+
+_CONFIG_PATH = "problem/{}.yaml"
+_CONFIG_TEMPLATE = """\
+solution:
+  class: Addition
+  method:
+    name: add_two_numbers
+    args:
+      - a
+      - b
+
+test cases:
+
+  - input:
+    - 2
+    - 2
+    expect: 4
+"""
+
+_SOLUTION_MODULE = "solution.{}"
+_SOLUTION_FILE_PATH = "solution/{}.py"
+_SOLUTION_TEMPLATE = """\
+class {}:
+
+    def {}(self, {}):
+        pass
+"""
+
+
 def eprint(*args, **kwargs):
     """Print to stderr."""
     print(*args, file=sys.stderr, **kwargs)
@@ -11,10 +41,8 @@ def eprint(*args, **kwargs):
 
 class ProblemList:
 
-    _PATH = "problem.yaml"
-
     def __init__(self) -> None:
-        with open(self._PATH) as f:
+        with open(_PROBLEM_LIST) as f:
             self.plist: dict = yaml.safe_load(f)
 
     def get_title(self, pid: int) -> str:
@@ -27,26 +55,17 @@ class ProblemList:
     def add_problem(self, name):
         max_id = max(self.plist)
         self.plist[max_id + 1] = name
-        with open(self._PATH, 'w') as f:
+        with open(_PROBLEM_LIST, 'w') as f:
             yaml.safe_dump(self.plist, f)
-        # TODO: create template problem config
+        with open(_CONFIG_PATH.format(self.get_title(max_id + 1)), 'w') as f:
+            f.write(_CONFIG_TEMPLATE)
 
 
 class Problem:
 
-    _CONFIG_PATH        = "problem/{}.yaml"
-    _SOLUTION_MODULE    = "solution.{}"
-    _SOLUTION_FILE_PATH = "solution/{}.py"
-    _SOLUTION_TEMPLATE  = """\
-class {}:
-
-    def {}(self, {}):
-        pass
-"""
-
     def __init__(self, pid: int) -> None:
         self.title = ProblemList().get_title(pid)
-        with open(self._CONFIG_PATH.format(self.title)) as f:
+        with open(_CONFIG_PATH.format(self.title)) as f:
             self.cfg = yaml.safe_load(f)
 
     def generate(self):
@@ -55,11 +74,11 @@ class {}:
         method_name = self.cfg['solution']['method']['name']
         args_name = self.cfg['solution']['method']['args']
 
-        src = self._SOLUTION_TEMPLATE.format(
+        src = _SOLUTION_TEMPLATE.format(
             class_name, method_name, ', '.join(args_name)
         )
 
-        py_path = self._SOLUTION_FILE_PATH.format(self.title)
+        py_path = _SOLUTION_FILE_PATH.format(self.title)
         if os.path.exists(py_path):
             choice = input(f"{py_path} already exists. Overwrite? [y/n] ")
             if choice.lower() not in {'y', 'ye', 'yes'}:
@@ -75,7 +94,7 @@ class {}:
         sol_method = self.cfg['solution']['method']['name']
 
         # import the test function
-        py_mod = self._SOLUTION_MODULE.format(self.title)
+        py_mod = _SOLUTION_MODULE.format(self.title)
         py_mod = importlib.import_module(py_mod)
         solver = getattr(py_mod, sol_class)()
         test_func = getattr(solver, sol_method)
