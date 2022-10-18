@@ -1,0 +1,14 @@
+<Class>:
+  <method1>:
+    __return: <type>
+  <method2>:
+    <arg1>: <type>
+    __return: <type>
+
+__test:
+  # tests are performed sequentially
+  - <method1>:
+      __return: <value>
+  - <method2>:
+      <arg1>: <value>
+      __return: <value>

@@ -1,0 +1,13 @@
+<Class>:
+  <method>:
+    <arg1>: <type>  # type provides serde info
+    <arg2>: <type>
+    __return: <type>
+
+__test:
+  - <arg1>: <value>
+    <arg2>: <value>
+    __return: <value>
+  - <arg1>: <value>
+    <arg2>: <value>
+    __return: <value>
