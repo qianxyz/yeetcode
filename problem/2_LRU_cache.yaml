@@ -1,0 +1,42 @@
+LRUCache:
+  __init__:
+    capacity: int
+    __return: null
+  get:
+    key: int
+    __return: int
+  put:
+    key: int
+    value: int
+    __return: null
+
+__test:
+- __init__:
+    capacity: 2
+- put:
+    key: 1
+    value: 1
+- put:
+    key: 2
+    value: 2
+- get:
+    key: 1
+    __return: 1
+- put:
+    key: 3
+    value: 3
+- get:
+    key: 2
+    __return: -1
+- put:
+    key: 4
+    value: 4
+- get:
+    key: 1
+    __return: -1
+- get:
+    key: 3
+    __return: 3
+- get:
+    key: 4
+    __return: 4

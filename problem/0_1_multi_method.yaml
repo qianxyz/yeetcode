@@ -6,9 +6,9 @@
     __return: <type>
 
 __test:
-  # tests are performed sequentially
-  - <method1>:
-      __return: <value>
-  - <method2>:
-      <arg1>: <value>
-      __return: <value>
+# tests are performed sequentially
+- <method1>:
+    __return: <value>
+- <method2>:
+    <arg1>: <value>
+    __return: <value>

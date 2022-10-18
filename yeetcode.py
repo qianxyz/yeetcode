@@ -5,33 +5,9 @@ import yaml
 
 
 _PROBLEM_LIST = "problem.yaml"
-
 _CONFIG_PATH = "problem/{}.yaml"
-_CONFIG_TEMPLATE = """\
-solution:
-  class: Solution
-  method:
-    name: add_two_numbers
-    args:
-      - a
-      - b
-
-test cases:
-
-  - input:
-    - 2
-    - 2
-    expect: 4
-"""
-
 _SOLUTION_MODULE = "solution.{}"
 _SOLUTION_FILE_PATH = "solution/{}.py"
-_SOLUTION_TEMPLATE = """\
-class {}:
-
-    def {}(self, {}):
-        pass
-"""
 
 
 def eprint(*args, **kwargs):
@@ -39,18 +15,26 @@ def eprint(*args, **kwargs):
     print(*args, file=sys.stderr, **kwargs)
 
 
-class ProblemList:
+class Problem:
+
+    def __init__(self) -> None:
+        raise NotImplementedError
+
+    def generate_py(self):
+        raise NotImplementedError
+
+    def run(self):
+        raise NotImplementedError
+
+
+class ProblemFactory:
 
     def __init__(self) -> None:
         with open(_PROBLEM_LIST) as f:
-            self.plist: dict = yaml.safe_load(f)
+            self.plist = yaml.safe_load(f)
 
-    def get_title(self, pid: int) -> str:
+    def get_problem(self, pid: int) -> Problem:
         name = self.plist[pid]
-        return f"{pid}_{name}"
-
-    def __str__(self) -> str:
-        return '\n'.join(f"{id}: {name}" for id, name in self.plist.items())
 
     def add_problem(self, name):
         max_id = max(self.plist)
@@ -60,7 +44,7 @@ class ProblemList:
 
         cfg_path = _CONFIG_PATH.format(self.get_title(max_id + 1))
         with open(cfg_path, 'w') as f:
-            f.write(_CONFIG_TEMPLATE)
+            f.write(self._CONFIG_TEMPLATE)
         print(f"config template generated at {cfg_path}")
 
     def run_all(self):
@@ -68,23 +52,36 @@ class ProblemList:
             problem = Problem(pid, self)
             problem.run()
 
+    def __str__(self) -> str:
+        return '\n'.join(f"{id}: {name}" for id, name in self.plist.items())
 
-class Problem:
+
+class SingleMethodProblem(Problem):
 
     def __init__(self, pid: int, plist: ProblemList) -> None:
         self.title = plist.get_title(pid)
         with open(_CONFIG_PATH.format(self.title)) as f:
-            self.cfg = yaml.safe_load(f)
+            self.cfg: dict = yaml.safe_load(f)
+
+        self.test = self.cfg.pop('__test')
+        # assure that self.cfg only has one key left
+        [(self.clazz, self.method)] = list(self.cfg.items())
+
+        self.has_multiple_methods = (len(self.method) > 1)
 
     def generate(self):
         """Generate a template solution file."""
-        class_name = self.cfg['solution']['class']
-        method_name = self.cfg['solution']['method']['name']
-        args_name = self.cfg['solution']['method']['args']
-
-        src = _SOLUTION_TEMPLATE.format(
-            class_name, method_name, ', '.join(args_name)
-        )
+        src = [f"class {self.clazz}:", ""]
+        for name, args in self.method.items():
+            ret_type = args.pop('__return')
+            args = ", ".join(
+                ["self"] + [f"{k}: {v}" for k, v in args.items()]
+            )
+            src += [
+                f"    def {name}({args}) -> {ret_type}:",
+                "        pass", ""
+            ]
+        src = '\n'.join(src)
 
         py_path = _SOLUTION_FILE_PATH.format(self.title)
         if os.path.exists(py_path):
