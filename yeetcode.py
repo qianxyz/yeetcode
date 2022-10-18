@@ -9,7 +9,7 @@ _PROBLEM_LIST = "problem.yaml"
 _CONFIG_PATH = "problem/{}.yaml"
 _CONFIG_TEMPLATE = """\
 solution:
-  class: Addition
+  class: Solution
   method:
     name: add_two_numbers
     args:

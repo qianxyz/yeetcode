@@ -1,0 +1,14 @@
+solution:
+  class: Solution
+  method:
+    name: add_two_numbers
+    args:
+      - a
+      - b
+
+test cases:
+
+  - input:
+    - 2
+    - 2
+    expect: 4
