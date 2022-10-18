@@ -63,11 +63,16 @@ class ProblemList:
             f.write(_CONFIG_TEMPLATE)
         print(f"config template generated at {cfg_path}")
 
+    def run_all(self):
+        for pid in self.plist:
+            problem = Problem(pid, self)
+            problem.run()
+
 
 class Problem:
 
-    def __init__(self, pid: int) -> None:
-        self.title = ProblemList().get_title(pid)
+    def __init__(self, pid: int, plist: ProblemList) -> None:
+        self.title = plist.get_title(pid)
         with open(_CONFIG_PATH.format(self.title)) as f:
             self.cfg = yaml.safe_load(f)
 
@@ -115,10 +120,13 @@ if __name__ == '__main__':
     subcommand = sys.argv[1]
     if subcommand == 'generate':
         pid = int(sys.argv[2])
-        Problem(pid).generate()
+        Problem(pid, ProblemList()).generate()
     elif subcommand == 'run':
-        pid = int(sys.argv[2])
-        Problem(pid).run()
+        if len(sys.argv) <= 2:
+            ProblemList().run_all()
+        else:
+            pid = int(sys.argv[2])
+            Problem(pid, ProblemList()).run()
     elif subcommand == 'list':
         print(ProblemList())
     elif subcommand == 'add':
