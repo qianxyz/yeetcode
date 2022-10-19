@@ -1,14 +1,13 @@
-solution:
-  class: Solution
-  method:
-    name: add_two_numbers
-    args:
-      - a
-      - b
+Solution:
+  add_two_numbers:
+    a: int
+    b: int
+    __return: int
 
-test cases:
-
-  - input:
-    - 2
-    - 2
-    expect: 4
+__test:
+- a: 2
+  b: 2
+  __return: 4
+- a: 69
+  b: 420
+  __return: 489
