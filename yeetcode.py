@@ -129,7 +129,24 @@ class SingleMethodProblem(Problem):
 class MultiMethodProblem(Problem):
 
     def run(self):
-        pass  # TODO
+        py_mod = importlib.import_module(self.sol_mod)
+        clazz = getattr(py_mod, self.clazz)
+
+        for routine in self.test:
+            solver = None
+            for action in routine:
+                [(name, args)] = list(action.items())
+                if args is None:
+                    args = {}
+                expect = args.pop('__return', None)
+                if name == '__init__':
+                    assert solver is None, "multiple __init__ in one routine"
+                    solver = clazz(**args)
+                else:
+                    assert solver is not None, "class not initialized"
+                    test_fn = getattr(solver, name)
+                    assert test_fn(**args) == expect, "Test failed"
+        print("Test passed")
 
 
 if __name__ == '__main__':
