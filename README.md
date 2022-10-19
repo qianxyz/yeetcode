@@ -1,4 +1,8 @@
-# Yeetcode
+# Yeetcode 
+
+[![status](
+https://github.com/qianxyz/yeetcode/actions/workflows/ci.yml/badge.svg
+)](https://github.com/qianxyz/yeetcode/actions)
 
 Why leetcode, if you can write your own?
 
@@ -15,7 +19,7 @@ Why leetcode, if you can write your own?
 - [x] Create a minimal proof of concept
 - [x] Solution files auto-generation
 - [x] Subcommand to list problems and add new ones
+- [x] Multiple methods test routine
 - [ ] Data structures serde
-- [ ] Multiple methods test routine
 - [ ] CI checking the problem set integrity
 - [ ] Prettify user messages
