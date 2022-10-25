@@ -15,10 +15,10 @@ class WrongAddition:
 
 def single_method_problem(name: str) -> SingleMethodProblem:
     class_name = name
-    methods = {"sum_of_two": {"a": "int", "b": "int", "__return": "int"}}
+    methods = {"sum_of_two": {"a": "int", "b": "int", "return": "int"}}
     test_cases = [
-        {"a": 0, "b": 1, "__return": 1},
-        {"a": 2, "b": 2, "__return": 4},
+        {"a": 0, "b": 1, "return": 1},
+        {"a": 2, "b": 2, "return": 4},
     ]
     return SingleMethodProblem(class_name, methods, test_cases)
 

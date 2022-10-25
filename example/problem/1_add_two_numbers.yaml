@@ -2,12 +2,12 @@ Solution:
   add_two_numbers:
     a: int
     b: int
-    __return: int
+    return: int
 
 __test:
 - a: 2
   b: 2
-  __return: 4
+  return: 4
 - a: 69
   b: 420
-  __return: 489
+  return: 489

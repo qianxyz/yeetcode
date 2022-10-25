@@ -22,7 +22,7 @@ class Problem:
         src += f"class {self.class_name}:\n"
         for name, args in self.methods.items():
             args_tmp = args.copy()
-            ret_type = args_tmp.pop("__return", None)
+            ret_type = args_tmp.pop("return", None)
             arg_str = ", ".join(
                 ["self"] + [f"{k}: {v}" for k, v in args_tmp.items()]
             )
@@ -47,7 +47,7 @@ class SingleMethodProblem(Problem):
         test_func = getattr(sol_instance, func_name)
 
         for kwargs in self.test_cases:
-            expect = kwargs.pop("__return", None)
+            expect = kwargs.pop("return", None)
             assert test_func(**kwargs) == expect, "test failed"
         print("Test passed")
 
