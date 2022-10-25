@@ -1,4 +1,5 @@
 from typing import Optional
+from yeetcode import ListNode
 
 
 class Solution:
