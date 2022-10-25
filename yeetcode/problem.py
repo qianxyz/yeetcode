@@ -54,4 +54,21 @@ class SingleMethodProblem(Problem):
 
 class MultiMethodProblem(Problem):
     def run_tests(self, module):
-        pass
+        cls = getattr(module, self.class_name)
+
+        for routine in self.test_cases:
+            sol_instance = None
+            for action in routine:
+                assert len(action) == 1, "illegal step"
+                [(func_name, kwargs)] = list(action.items())
+                if kwargs is None:
+                    kwargs = {}
+                expect = kwargs.pop("return", None)
+                if func_name == "__init__":
+                    assert sol_instance is None, "multiple __init__"
+                    sol_instance = cls(**kwargs)
+                else:
+                    assert sol_instance is not None, "not initialized"
+                    test_func = getattr(sol_instance, func_name)
+                    assert test_func(**kwargs) == expect, "test failed"
+        print("test passed")
