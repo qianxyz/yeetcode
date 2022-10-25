@@ -6,13 +6,7 @@ def build_problem(methods: dict) -> Problem:
 
 
 def test_plain():
-    methods = {
-        "foo": {
-            "a": "int",
-            "b": "int",
-            "__return": "int",
-        },
-    }
+    methods = {"foo": {"a": "int", "b": "int", "__return": "int"}}
     problem = build_problem(methods)
     assert (
         problem.generate_py()
@@ -25,13 +19,7 @@ class Foo:
 
 
 def test_multi_method():
-    methods = {
-        "foo": {
-            "s": "str",
-            "__return": None,
-        },
-        "bar": {},
-    }
+    methods = {"foo": {"s": "str", "__return": None}, "bar": {}}
     problem = build_problem(methods)
     assert (
         problem.generate_py()
@@ -47,12 +35,7 @@ class Foo:
 
 
 def test_import():
-    methods = {
-        "foo": {
-            "s": "List[Optional[ListNode]]",
-            "__return": None,
-        },
-    }
+    methods = {"foo": {"s": "List[Optional[ListNode]]", "__return": None}}
     problem = build_problem(methods)
     assert (
         problem.generate_py()
