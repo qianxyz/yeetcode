@@ -1,8 +1,11 @@
 from yeetcode.problem import Problem
 
 
+def build_problem(methods: dict) -> Problem:
+    return Problem("Foo", methods, [])
+
+
 def test_plain():
-    class_name = "Foo"
     methods = {
         "foo": {
             "a": "int",
@@ -10,8 +13,7 @@ def test_plain():
             "__return": "int",
         },
     }
-    test_cases = []
-    problem = Problem(class_name, methods, test_cases)
+    problem = build_problem(methods)
     assert problem.generate_py() == """\
 class Foo:
     def foo(self, a: int, b: int) -> int:
@@ -20,7 +22,6 @@ class Foo:
 
 
 def test_multi_method():
-    class_name = "Foo"
     methods = {
         "foo": {
             "s": "str",
@@ -28,8 +29,7 @@ def test_multi_method():
         },
         "bar": {},
     }
-    test_cases = []
-    problem = Problem(class_name, methods, test_cases)
+    problem = build_problem(methods)
     assert problem.generate_py() == """\
 class Foo:
     def foo(self, s: str) -> None:
@@ -41,15 +41,13 @@ class Foo:
 
 
 def test_import():
-    class_name = "Foo"
     methods = {
         "foo": {
             "s": "List[Optional[ListNode]]",
             "__return": None,
         },
     }
-    test_cases = []
-    problem = Problem(class_name, methods, test_cases)
+    problem = build_problem(methods)
     assert problem.generate_py() == """\
 from typing import List, Optional
 from yeetcode import ListNode
