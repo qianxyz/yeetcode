@@ -30,8 +30,8 @@ class Problem:
             )
             src += f"    def {name}({arg_str}) -> {ret_type}: pass\n"
 
-        from yapf.yapflib.yapf_api import FormatCode
-        src, _ = FormatCode(src)
+        from black import format_str, FileMode
+        src = format_str(src, mode=FileMode())
         return src
 
     def run_tests(self, _):

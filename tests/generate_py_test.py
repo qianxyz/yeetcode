@@ -14,7 +14,6 @@ def test_plain():
     problem = Problem(class_name, methods, test_cases)
     assert problem.generate_py() == """\
 class Foo:
-
     def foo(self, a: int, b: int) -> int:
         pass
 """
@@ -33,7 +32,6 @@ def test_multi_method():
     problem = Problem(class_name, methods, test_cases)
     assert problem.generate_py() == """\
 class Foo:
-
     def foo(self, s: str) -> None:
         pass
 
@@ -58,7 +56,6 @@ from yeetcode import ListNode
 
 
 class Foo:
-
     def foo(self, s: List[Optional[ListNode]]) -> None:
         pass
 """

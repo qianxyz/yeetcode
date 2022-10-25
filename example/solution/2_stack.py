@@ -2,7 +2,6 @@ from typing import Optional
 
 
 class Stack:
-
     def __init__(self) -> None:
         self.stk = []
 
