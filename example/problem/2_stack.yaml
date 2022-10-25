@@ -11,7 +11,7 @@ Stack:
   peek:
     return: Optional[int]
 
-__test:
+tests:
 # is_empty
 - - __init__:
   - is_empty: { return: true }
