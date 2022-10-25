@@ -14,11 +14,14 @@ def test_plain():
         },
     }
     problem = build_problem(methods)
-    assert problem.generate_py() == """\
+    assert (
+        problem.generate_py()
+        == """\
 class Foo:
     def foo(self, a: int, b: int) -> int:
         pass
 """
+    )
 
 
 def test_multi_method():
@@ -30,7 +33,9 @@ def test_multi_method():
         "bar": {},
     }
     problem = build_problem(methods)
-    assert problem.generate_py() == """\
+    assert (
+        problem.generate_py()
+        == """\
 class Foo:
     def foo(self, s: str) -> None:
         pass
@@ -38,6 +43,7 @@ class Foo:
     def bar(self) -> None:
         pass
 """
+    )
 
 
 def test_import():
@@ -48,7 +54,9 @@ def test_import():
         },
     }
     problem = build_problem(methods)
-    assert problem.generate_py() == """\
+    assert (
+        problem.generate_py()
+        == """\
 from typing import List, Optional
 from yeetcode import ListNode
 
@@ -57,3 +65,4 @@ class Foo:
     def foo(self, s: List[Optional[ListNode]]) -> None:
         pass
 """
+    )
