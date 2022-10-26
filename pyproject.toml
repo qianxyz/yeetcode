@@ -4,13 +4,19 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "yeetcode"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
   { name="Qianxy", email="xyqian67@gmail.com" },
 ]
 description = "Make your own leetcode problems"
 readme = "README.md"
 requires-python = ">=3.7"
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+]
 dependencies = [
   'PyYAML ~= 6.0',
   'black ~= 22.10.0',
@@ -24,6 +30,7 @@ tests = [
 
 [project.urls]
 "Homepage" = "https://github.com/qianxyz/yeetcode"
+"Bug Tracker" = "https://github.com/qianxyz/yeetcode/issues"
 
 [project.scripts]
 yeetcode = "yeetcode:main"
