@@ -30,7 +30,7 @@ class Problem:
 
         from black import format_str, FileMode
 
-        src = format_str(src, mode=FileMode())
+        src = format_str(src, mode=FileMode(line_length=79))
         return src
 
     def run_tests(self, _):
