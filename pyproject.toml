@@ -8,7 +8,7 @@ version = "0.0.1"
 authors = [
   { name="Qianxy", email="xyqian67@gmail.com" },
 ]
-description = "Leetcode skeletal clone"
+description = "Make your own leetcode problems"
 readme = "README.md"
 requires-python = ">=3.7"
 dependencies = [
