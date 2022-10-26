@@ -1,0 +1,16 @@
+Solution:
+  merge_two_sorted_lists:
+    list1: Optional[ListNode]
+    list2: Optional[ListNode]
+    return: Optional[ListNode]
+
+tests:
+- list1: [1, 2, 4]
+  list2: [1, 3, 4]
+  return: [1, 1, 2, 3, 4, 4]
+- list1: []
+  list2: []
+  return: []
+- list1: []
+  list2: [0]
+  return: [0]

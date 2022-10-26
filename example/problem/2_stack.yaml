@@ -1,0 +1,33 @@
+Stack:
+  __init__:
+    return: null
+  is_empty:
+    return: bool
+  push:
+    item: int
+    return: null
+  pop:
+    return: Optional[int]
+  peek:
+    return: Optional[int]
+
+tests:
+# is_empty
+- - __init__:
+  - is_empty: { return: true }
+  - push: { item: 1 }
+  - is_empty: { return: false }
+# LIFO
+- - __init__:
+  - push: { item: 1 }
+  - push: { item: 2 }
+  - pop: { return: 2 }
+  - pop: { return: 1 }
+# pop when empty
+- - __init__:
+  - pop: { return: null }
+# peek
+- - __init__:
+  - peek: { return: null }
+  - push: { item: 1 }
+  - peek: { return: 1 }

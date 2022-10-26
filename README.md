@@ -1,4 +1,4 @@
-# Yeetcode 
+# Yeetcode
 
 [![status](
 https://github.com/qianxyz/yeetcode/actions/workflows/ci.yml/badge.svg
@@ -6,13 +6,16 @@ https://github.com/qianxyz/yeetcode/actions/workflows/ci.yml/badge.svg
 
 Why leetcode, if you can write your own?
 
-## Objectives
+## Features
 
-- Decoupling solutions (frontend) and tests (backend)
-- Frontend: Just fill in a function in a template file,
-  which contains nothing but said function, just like Leetcode
-- Backend: Organize test cases and driver code with auto-generated YAML;
-  Manage the problem set modularly
+- Create problems and test cases with declarative YAML files,
+  without writing python-specific setups or `assert` statements
+- Fill in your solution into an auto-generated template Python file,
+  which contains nothing but your solutions (just like leetcode)
+
+## Quick start
+
+Under construction. See you later!
 
 ## Roadmap
 
@@ -20,6 +23,6 @@ Why leetcode, if you can write your own?
 - [x] Solution files auto-generation
 - [x] Subcommand to list problems and add new ones
 - [x] Multiple methods test routine
+- [ ] CI checking the problem set
 - [ ] Data structures serde
-- [ ] CI checking the problem set integrity
 - [ ] Prettify user messages
