@@ -25,5 +25,8 @@ tests = [
 [project.urls]
 "Homepage" = "https://github.com/qianxyz/yeetcode"
 
+[project.scripts]
+yeetcode = "yeetcode:main"
+
 [tool.black]
 line-length = 79

@@ -33,7 +33,7 @@ class Problem:
         src = format_str(src, mode=FileMode(line_length=79))
         return src
 
-    def run_tests(self, _):
+    def run_tests(self, module):
         raise NotImplementedError
 
 
