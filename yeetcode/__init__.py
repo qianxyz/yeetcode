@@ -10,7 +10,7 @@ def main():
         problem = load_problem(yaml_path)
         src = problem.generate_py()
         # just print the template to stdout, let user redirect
-        print(src)
+        print(src, end="")
     elif subcommand == "run":
         yaml_path = sys.argv[2]
         py_path = sys.argv[3]
