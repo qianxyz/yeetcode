@@ -49,7 +49,7 @@ class SingleMethodProblem(Problem):
         for kwargs in self.test_cases:
             expect = kwargs.pop("return", None)
             assert test_func(**kwargs) == expect, "test failed"
-        print("Test passed")
+        print("test passed")
 
 
 class MultiMethodProblem(Problem):
