@@ -1,3 +1,4 @@
+import typing
 from typing import Optional
 
 
@@ -47,10 +48,10 @@ class ListNode:
             while data:
                 p = ListNode(val=data.pop(), next=p)
             return p
+
         elif isinstance(data, dict):
             vals = data["vals"]
             pos = data["pos"]
-
             p = end = loop_entrance = None
             while vals:
                 p = ListNode(val=vals.pop(), next=p)
@@ -64,3 +65,21 @@ class ListNode:
 
         else:
             raise SerdeError("unsupported type to deserialize to linked list")
+
+
+# All types in Leetcode top 100 questions:
+#
+# int, float, str, bool, type(None)
+# List[int], List[List[int]], List[str], List[List[str]], List[float]
+# ListNode, Optional[ListNode], List[Optional[ListNode]]
+# TreeNode, Optional[TreeNode]
+#
+# And generally I want to support more Optional thing.
+
+
+def deserialize(origin, typ: typing.Type):
+    pass
+
+
+def serialize(data, typ: typing.Type):
+    pass
