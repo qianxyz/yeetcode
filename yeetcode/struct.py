@@ -20,42 +20,47 @@ class ListNode:
             raise ValueError("next must be ListNode or None")
         self._next = item
 
-    def _has_cycle(self) -> bool:
-        slow = fast = self
-        while slow and fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            if slow is fast:
-                return True
-        return False
-
-    def __eq__(self, other) -> bool:
+    def _serialize(self) -> list | dict:
         """
-        When checking solutions, two linked lists are never compared directly;
-        They are serialized to plain lists and compared. To prevent accidental
-        usage in production, this raises error.
+        When the linked list has no cycles, return a list of vals.
+        Otherwise, return a dict { "vals": list, "pos": int }.
+        See Leetcode problem #141.
         """
-        raise NotImplementedError
+        # NOTE: dict preserves insertion order since Python 3.7
+        visited = {}
+        pos = 0
+        while self is not None:
+            if self in visited:
+                return {
+                    "vals": [node.val for node in visited],
+                    "pos": visited[self],
+                }
+            visited[self] = pos
+            self = self.next
+            pos += 1
+        return [node.val for node in visited]
 
     @staticmethod
-    def _serialize(node: Optional["ListNode"]) -> list:
-        if node is None:
-            return []
-        if not isinstance(node, ListNode):
-            raise SerdeError("object is not linked list")
-        if node._has_cycle():
-            raise SerdeError("linked list has cycle")
-        ret = []
-        while node is not None:
-            ret.append(node.val)
-            node = node.next
-        return ret
+    def _deserialize(data: list | dict) -> Optional["ListNode"]:
+        if isinstance(data, list):
+            p = None
+            while data:
+                p = ListNode(val=data.pop(), next=p)
+            return p
+        elif isinstance(data, dict):
+            vals = data["vals"]
+            pos = data["pos"]
 
-    @staticmethod
-    def _deserialize(lst: list) -> Optional["ListNode"]:
-        if not isinstance(lst, list):
-            raise SerdeError("cannot deserialize non-list to linked list")
-        head = None
-        while lst:
-            head = ListNode(val=lst.pop(), next=head)
-        return head
+            p = end = loop_entrance = None
+            while vals:
+                p = ListNode(val=vals.pop(), next=p)
+                if end is None:
+                    end = p
+                if len(vals) == pos:
+                    loop_entrance = p
+            if end is not None:
+                end.next = loop_entrance
+            return p
+
+        else:
+            raise SerdeError("unsupported type to deserialize to linked list")

@@ -1,9 +1,8 @@
-from typing import Optional
 import pytest
 from yeetcode.struct import ListNode, SerdeError
 
 
-def normal_linked_list():
+def une_duex_trois():
     return ListNode(1, ListNode(2, ListNode(3)))
 
 
@@ -23,13 +22,6 @@ def ouroboros():
     return a
 
 
-def is_equal(p: Optional[ListNode], q: Optional[ListNode]) -> bool:
-    while p and q and p.val == q.val:
-        p = p.next
-        q = q.next
-    return p is q
-
-
 def test_invalid_next():
     # when initializing
     with pytest.raises(ValueError):
@@ -41,25 +33,33 @@ def test_invalid_next():
         a.next = 0
 
 
-def test_cycle_detection():
-    assert ouroboros()._has_cycle()
-    assert cycle_included()._has_cycle()
-    assert not normal_linked_list()._has_cycle()
-
-
 def test_serialize():
-    s = ListNode._serialize
-    assert s(None) == []
-    assert s(normal_linked_list()) == [1, 2, 3]
-    with pytest.raises(SerdeError):
-        s(1)
-    with pytest.raises(SerdeError):
-        s(ouroboros())
+    assert ListNode()._serialize() == [0]
+    assert une_duex_trois()._serialize() == [1, 2, 3]
+    assert cycle_included()._serialize() == {"vals": [0, 0, 0], "pos": 1}
+    assert ouroboros()._serialize() == {"vals": [0], "pos": 0}
 
 
 def test_deserialize():
     d = ListNode._deserialize
-    assert d([]) is None
-    assert is_equal(d([1, 2, 3]), normal_linked_list())
+
+    a = d([])
+    assert a is None
+
+    a = d([1, 2, 3])
+    assert (a.val, a.next.val, a.next.next.val) == (1, 2, 3)
+    assert a.next.next.next is None
+
+    a = d({"vals": [0, 0, 0], "pos": 1})
+    assert (a.val, a.next.val, a.next.next.val) == (0, 0, 0)
+    assert a.next.next.next is a.next
+
+    a = d({"vals": [0], "pos": 0})
+    assert a.val == 0
+    assert a.next == a
+
+    a = d({"vals": [], "pos": 0})
+    assert a is None
+
     with pytest.raises(SerdeError):
-        d(1)
+        d("string is unsupported")
