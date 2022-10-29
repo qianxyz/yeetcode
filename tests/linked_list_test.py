@@ -53,6 +53,7 @@ def test_serialize():
     assert s(normal_linked_list()) == [1, 2, 3]
     with pytest.raises(SerdeError):
         s(1)
+    with pytest.raises(SerdeError):
         s(ouroboros())
 
 
