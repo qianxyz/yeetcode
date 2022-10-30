@@ -1,3 +1,7 @@
+from typing import get_type_hints
+from .struct import serialize, deserialize_kwargs
+
+
 class Problem:
     def __init__(self, class_name: str, methods: dict, test_cases: list):
         self.class_name = class_name
@@ -45,10 +49,14 @@ class SingleMethodProblem(Problem):
         # get the test function
         [func_name] = list(self.methods.keys())
         test_func = getattr(sol_instance, func_name)
+        type_hints = get_type_hints(test_func)
 
         for kwargs in self.test_cases:
             expect = kwargs.pop("return", None)
-            assert test_func(**kwargs) == expect, "test failed"
+            kwargs_de = deserialize_kwargs(kwargs, type_hints)
+            ret = test_func(**kwargs_de)
+            ret_ser = serialize(ret, type_hints["return"])
+            assert ret_ser == expect, "test failed"
         print("test passed")
 
 
@@ -64,6 +72,7 @@ class MultiMethodProblem(Problem):
                 if kwargs is None:
                     kwargs = {}
                 expect = kwargs.pop("return", None)
+                # TODO: add serde
                 if func_name == "__init__":
                     assert sol_instance is None, "multiple __init__"
                     sol_instance = cls(**kwargs)
