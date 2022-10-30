@@ -43,6 +43,7 @@ def test_import():
 from typing import List, Optional
 from yeetcode import ListNode
 
+
 # Definition for singly-linked list.
 # class ListNode:
 #     def __init__(self, val=0, next=None):
