@@ -1,0 +1,14 @@
+Solution:
+  has_cycle:
+    head: Optional[ListNode]
+    return: bool
+
+tests:
+- head: { vals: [3, 2, 0, -4], pos: 1 }
+  return: True
+- head: { vals: [1, 2], pos: 0 }
+  return: True
+- head: { vals: [1], pos: -1 }
+  return: False
+- head: []
+  return: False
