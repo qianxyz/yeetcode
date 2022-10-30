@@ -34,10 +34,13 @@ def test_invalid_next():
 
 
 def test_serialize():
-    assert ListNode()._serialize() == [0]
-    assert une_duex_trois()._serialize() == [1, 2, 3]
-    assert cycle_included()._serialize() == {"vals": [0, 0, 0], "pos": 1}
-    assert ouroboros()._serialize() == {"vals": [0], "pos": 0}
+    s = ListNode._serialize
+    assert s(None) == []
+    assert s(une_duex_trois()) == [1, 2, 3]
+    assert s(cycle_included()) == {"vals": [0, 0, 0], "pos": 1}
+    assert s(ouroboros()) == {"vals": [0], "pos": 0}
+    with pytest.raises(SerdeError):
+        s("this is unsupported")
 
 
 def test_deserialize():
@@ -62,4 +65,4 @@ def test_deserialize():
     assert a is None
 
     with pytest.raises(SerdeError):
-        d("string is unsupported")
+        d("this is unsupported")
