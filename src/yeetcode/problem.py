@@ -14,8 +14,11 @@ class Problem:
 
         # collect imports (using primordial string matching)
         types = [t for arg in self.methods.values() for t in arg.values() if t]
-        typings = ["List", "Optional"]
+        typings = ["List[", "Optional"]  # not to match `ListNode`
         typings_needed = [s for s in typings if any(s in t for t in types)]
+        # swap out `List[` for `List`
+        if "List[" in typings_needed:
+            typings_needed[0] = "List"
         structs = ["ListNode", "TreeNode"]
         structs_needed = [s for s in structs if any(s in t for t in types)]
         if typings_needed:
