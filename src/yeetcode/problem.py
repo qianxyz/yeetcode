@@ -1,5 +1,5 @@
 from typing import get_type_hints
-from .struct import serialize, deserialize_kwargs
+from .struct import serialize, deserialize_kwargs, ListNode
 
 
 class Problem:
@@ -25,6 +25,8 @@ class Problem:
             src += f"from typing import {', '.join(typings_needed)}\n"
         if structs_needed:
             src += f"from yeetcode import {', '.join(structs_needed)}\n"
+        if "ListNode" in structs_needed:
+            src += ListNode.__doc__
 
         src += f"class {self.class_name}:\n"
         for name, args in self.methods.items():
