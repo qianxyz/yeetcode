@@ -38,3 +38,15 @@ yeetcode = "yeetcode:main"
 
 [tool.black]
 line-length = 79
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+  'raise NotImplementedError',
+  'pass',
+]
