@@ -80,6 +80,52 @@ class ListNode:
             raise SerdeError("unsupported type to deserialize to linked list")
 
 
+class TreeNode:
+
+    __doc__ = """
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+"""
+
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    @property
+    def left(self):
+        return self._left
+
+    @left.setter
+    def left(self, item):
+        if not (item is None or isinstance(item, TreeNode)):
+            raise ValueError("subtree must be TreeNode or None")
+        self._left = item
+
+    @property
+    def right(self):
+        return self._right
+
+    @right.setter
+    def right(self, item):
+        if not (item is None or isinstance(item, TreeNode)):
+            raise ValueError("subtree must be TreeNode or None")
+        self._right = item
+
+    @staticmethod
+    def _serialize(node: Optional["TreeNode"]) -> list:
+        pass
+
+    @staticmethod
+    def _deserialize(data: list) -> Optional["TreeNode"]:
+        pass
+
+
 # Serde utils
 # Note that we do not really do serde through string.
 # Parsing from/to something YAML can understand is enough.
