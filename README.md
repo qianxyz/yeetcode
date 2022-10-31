@@ -47,8 +47,8 @@ python -m pip install -e .[tests]
 
 - [x] Create a minimal proof of concept
 - [x] Solution files auto-generation
-- [x] Subcommand to list problems and add new ones
 - [x] Multiple methods test routine
+- [x] Data structure: singly linked list
+- [ ] Data structure: binary tree
 - [ ] CI checking the problem set
-- [ ] Data structures serde
 - [ ] Prettify user messages
