@@ -28,6 +28,7 @@ jobs:
     - name: Lint with flake8
       run: |
         flake8 . --count --show-source --statistics
-    - name: Test with pytest
+    - name: Test with pytest and coverage
       run: |
-        pytest
+        coverage run -m pytest
+        coverage report

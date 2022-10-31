@@ -46,6 +46,7 @@ omit = ["*/__init__.py"]
 
 [tool.coverage.report]
 show_missing = true
+fail_under = 100
 # Regexes for lines to exclude from consideration
 exclude_lines = [
   'raise NotImplementedError',
