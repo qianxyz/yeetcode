@@ -1,5 +1,5 @@
 import typing
-from typing import Optional
+from typing import Optional, Union
 
 
 class SerdeError(Exception):
@@ -32,7 +32,7 @@ class ListNode:
         self._next = item
 
     @staticmethod
-    def _serialize(node: Optional["ListNode"]) -> list | dict:
+    def _serialize(node: Optional["ListNode"]) -> Union[list, dict]:
         """
         When the linked list has no cycles, return a list of vals.
         Otherwise, return a dict { "vals": list, "pos": int }.
@@ -55,7 +55,7 @@ class ListNode:
         return [node.val for node in visited]
 
     @staticmethod
-    def _deserialize(data: list | dict) -> Optional["ListNode"]:
+    def _deserialize(data: Union[list, dict]) -> Optional["ListNode"]:
         if isinstance(data, list):
             p = None
             while data:
