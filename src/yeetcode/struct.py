@@ -125,7 +125,7 @@ def serialize(py_obj, typ: typing.Type):
     if typ in [int, float, str, bool, type(None)]:
         if not isinstance(py_obj, typ):
             raise SerdeError(f"{py_obj} is not an instance of {typ}")
-        return py_obj
+        return None if isinstance(None, typ) else typ(py_obj)
 
     elif typ is ListNode or typ is Optional[ListNode]:
         return ListNode._serialize(py_obj)
