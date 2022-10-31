@@ -42,6 +42,7 @@ line-length = 79
 [tool.coverage.run]
 branch = true
 source = ["src"]
+omit = ["*/__init__.py"]
 
 [tool.coverage.report]
 show_missing = true

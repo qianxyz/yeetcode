@@ -24,6 +24,31 @@ tests:
     ]
 
 
+def test_load_multi_method_problem():
+    yaml_raw = """
+Person:
+  __init__:
+    name: str
+    return: null
+  greet:
+    return: str
+
+tests:
+- - __init__: { name: "Jack" }
+  - greet: { return: "Hello, Jack!" }
+"""
+
+    problem = load_problem(yaml_raw)
+    assert problem.class_name == "Person"
+    assert problem.methods == {
+        "__init__": {"name": "str", "return": None},
+        "greet": {"return": "str"},
+    }
+    assert problem.test_cases == [
+        [{"__init__": {"name": "Jack"}}, {"greet": {"return": "Hello, Jack!"}}]
+    ]
+
+
 def test_load_module():
     py_str = """
 class Greeting:
