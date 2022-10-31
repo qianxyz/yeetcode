@@ -119,11 +119,17 @@ class TreeNode:
 
     @staticmethod
     def _serialize(node: Optional["TreeNode"]) -> list:
-        pass
+        if node is None:
+            return []
+        if not isinstance(node, TreeNode):
+            raise SerdeError(f"{node} is not an instance of TreeNode or None")
+        # TODO
 
     @staticmethod
     def _deserialize(data: list) -> Optional["TreeNode"]:
-        pass
+        if not isinstance(data, list):
+            raise SerdeError("cannot deserialized non-list to binary tree")
+        # TODO
 
 
 # Serde utils
