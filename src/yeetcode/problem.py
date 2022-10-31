@@ -83,12 +83,17 @@ class MultiMethodProblem(Problem):
                 if kwargs is None:
                     kwargs = {}
                 expect = kwargs.pop("return", None)
-                # TODO: add serde
                 if func_name == "__init__":
                     assert sol_instance is None, "multiple __init__"
-                    sol_instance = cls(**kwargs)
+                    type_hints = get_type_hints(cls.__init__)
+                    kwargs_de = deserialize_kwargs(kwargs, type_hints)
+                    sol_instance = cls(**kwargs_de)
                 else:
                     assert sol_instance is not None, "not initialized"
                     test_func = getattr(sol_instance, func_name)
-                    assert test_func(**kwargs) == expect, "test failed"
+                    type_hints = get_type_hints(test_func)
+                    kwargs_de = deserialize_kwargs(kwargs, type_hints)
+                    ret = test_func(**kwargs_de)
+                    ret_ser = serialize(ret, type_hints["return"])
+                    assert ret_ser == expect, "test failed"
         print("test passed")
