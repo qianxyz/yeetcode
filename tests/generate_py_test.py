@@ -44,6 +44,11 @@ from typing import List, Optional
 from yeetcode import ListNode
 
 
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
 class Foo:
     def foo(self, s: List[Optional[ListNode]]) -> None:
         pass

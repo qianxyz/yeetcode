@@ -22,7 +22,7 @@ class BrokenButton(Button):
 def normal_test_cases():
     return [
         [
-            {"__init__": {}},
+            {"__init__": None},
             {"push": {"times": 1}},
             {"show": {"return": 1}},
         ]

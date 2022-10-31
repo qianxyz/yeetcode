@@ -1,0 +1,14 @@
+Solution:
+  reverse_list:
+    head: Optional[ListNode]
+    return: Optional[ListNode]
+
+tests:
+- head: [1, 2, 3, 4, 5]
+  return: [5, 4, 3, 2, 1]
+- head: [1, 2]
+  return: [2, 1]
+- head: [1]
+  return: [1]
+- head: []
+  return: []

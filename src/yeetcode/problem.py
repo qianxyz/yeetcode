@@ -1,3 +1,7 @@
+from typing import get_type_hints
+from .struct import serialize, deserialize_kwargs, ListNode
+
+
 class Problem:
     def __init__(self, class_name: str, methods: dict, test_cases: list):
         self.class_name = class_name
@@ -8,16 +12,27 @@ class Problem:
         """Generate a template solution file."""
         src = ""
 
-        # collect imports (using primordial string matching)
-        types = [t for arg in self.methods.values() for t in arg.values() if t]
-        typings = ["List", "Optional"]
-        typings_needed = [s for s in typings if any(s in t for t in types)]
-        structs = ["ListNode", "TreeNode"]
-        structs_needed = [s for s in structs if any(s in t for t in types)]
-        if typings_needed:
-            src += f"from typing import {', '.join(typings_needed)}\n"
-        if structs_needed:
-            src += f"from yeetcode import {', '.join(structs_needed)}\n"
+        import re
+
+        # collect imports
+        typings = set()
+        structs = set()
+        for args in self.methods.values():
+            for typ in args.values():
+                if typ is None:
+                    continue
+                for k in ["List", "Optional"]:
+                    if re.search(k + r"\[.*\]", typ) is not None:
+                        typings.add(k)
+                for k in ["ListNode", "TreeNode"]:
+                    if k in typ:
+                        structs.add(k)
+        if typings:
+            src += f"from typing import {', '.join(sorted(typings))}\n"
+        if structs:
+            src += f"from yeetcode import {', '.join(sorted(structs))}\n"
+        if "ListNode" in structs:
+            src += ListNode.__doc__
 
         src += f"class {self.class_name}:\n"
         for name, args in self.methods.items():
@@ -45,10 +60,14 @@ class SingleMethodProblem(Problem):
         # get the test function
         [func_name] = list(self.methods.keys())
         test_func = getattr(sol_instance, func_name)
+        type_hints = get_type_hints(test_func)
 
         for kwargs in self.test_cases:
             expect = kwargs.pop("return", None)
-            assert test_func(**kwargs) == expect, "test failed"
+            kwargs_de = deserialize_kwargs(kwargs, type_hints)
+            ret = test_func(**kwargs_de)
+            ret_ser = serialize(ret, type_hints["return"])
+            assert ret_ser == expect, "test failed"
         print("test passed")
 
 
@@ -66,9 +85,15 @@ class MultiMethodProblem(Problem):
                 expect = kwargs.pop("return", None)
                 if func_name == "__init__":
                     assert sol_instance is None, "multiple __init__"
-                    sol_instance = cls(**kwargs)
+                    type_hints = get_type_hints(cls.__init__)
+                    kwargs_de = deserialize_kwargs(kwargs, type_hints)
+                    sol_instance = cls(**kwargs_de)
                 else:
                     assert sol_instance is not None, "not initialized"
                     test_func = getattr(sol_instance, func_name)
-                    assert test_func(**kwargs) == expect, "test failed"
+                    type_hints = get_type_hints(test_func)
+                    kwargs_de = deserialize_kwargs(kwargs, type_hints)
+                    ret = test_func(**kwargs_de)
+                    ret_ser = serialize(ret, type_hints["return"])
+                    assert ret_ser == expect, "test failed"
         print("test passed")
