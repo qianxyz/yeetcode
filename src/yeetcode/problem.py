@@ -12,20 +12,26 @@ class Problem:
         """Generate a template solution file."""
         src = ""
 
-        # collect imports (using primordial string matching)
-        types = [t for arg in self.methods.values() for t in arg.values() if t]
-        typings = ["List[", "Optional"]  # not to match `ListNode`
-        typings_needed = [s for s in typings if any(s in t for t in types)]
-        # swap out `List[` for `List`
-        if "List[" in typings_needed:
-            typings_needed[0] = "List"
-        structs = ["ListNode", "TreeNode"]
-        structs_needed = [s for s in structs if any(s in t for t in types)]
-        if typings_needed:
-            src += f"from typing import {', '.join(typings_needed)}\n"
-        if structs_needed:
-            src += f"from yeetcode import {', '.join(structs_needed)}\n"
-        if "ListNode" in structs_needed:
+        import re
+
+        # collect imports
+        typings = set()
+        structs = set()
+        for args in self.methods.values():
+            for typ in args.values():
+                if typ is None:
+                    continue
+                for k in ["List", "Optional"]:
+                    if re.search(k + r"\[.*\]", typ) is not None:
+                        typings.add(k)
+                for k in ["ListNode", "TreeNode"]:
+                    if k in typ:
+                        structs.add(k)
+        if typings:
+            src += f"from typing import {', '.join(sorted(typings))}\n"
+        if structs:
+            src += f"from yeetcode import {', '.join(sorted(structs))}\n"
+        if "ListNode" in structs:
             src += ListNode.__doc__
 
         src += f"class {self.class_name}:\n"
