@@ -27,7 +27,7 @@ class ListNode:
 
     @next.setter
     def next(self, item):
-        if not isinstance(item, Optional[ListNode]):
+        if not (item is None or isinstance(item, ListNode)):
             raise ValueError("next must be ListNode or None")
         self._next = item
 
@@ -39,7 +39,7 @@ class ListNode:
         See Leetcode problem #141.
         """
         # NOTE: dict preserves insertion order since Python 3.7
-        if not isinstance(node, Optional[ListNode]):
+        if not (node is None or isinstance(node, ListNode)):
             raise SerdeError(f"{node} is not an instance of ListNode or None")
         visited = {}
         pos = 0
