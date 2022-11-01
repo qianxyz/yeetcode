@@ -11,7 +11,7 @@ https://github.com/qianxyz/yeetcode/actions/workflows/ci.yml/badge.svg
 
 Yeetcode is a leetcode imitation, where you can create your own
 declarative problem specifications with YAML, auto-generate a solution
-template in Python, fill in your solution, then run against your own 
+template in Python, fill in your solution, then run against your own
 test cases.
 
 ## Quick start
@@ -49,6 +49,8 @@ python -m pip install -e .[tests]
 - [x] Solution files auto-generation
 - [x] Multiple methods test routine
 - [x] Data structure: singly linked list
-- [ ] Data structure: binary tree
-- [ ] CI checking the problem set
+- [x] Data structure: binary tree
 - [ ] Prettify user messages
+- [ ] Docstring field describing problem
+- [ ] Problem config documentation
+- [ ] Inplace problems with no return
