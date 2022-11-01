@@ -1,3 +1,4 @@
+import collections
 import typing
 from typing import Optional, Union
 
@@ -119,17 +120,42 @@ class TreeNode:
 
     @staticmethod
     def _serialize(node: Optional["TreeNode"]) -> list:
-        if node is None:
-            return []
-        if not isinstance(node, TreeNode):
+        if not (node is None or isinstance(node, TreeNode)):
             raise SerdeError(f"{node} is not an instance of TreeNode or None")
-        # TODO
+
+        ret = []
+        queue = collections.deque([node])
+        while queue:
+            node = queue.popleft()
+            if node is not None:
+                ret.append(node.val)
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                ret.append(None)
+
+        # trim the trailing Nones
+        while ret and ret[-1] is None:
+            ret.pop()
+        return ret
 
     @staticmethod
     def _deserialize(data: list) -> Optional["TreeNode"]:
         if not isinstance(data, list):
             raise SerdeError("cannot deserialized non-list to binary tree")
-        # TODO
+
+        if not data:
+            return None
+
+        nodes = [None if val is None else TreeNode(val) for val in data]
+        queue = collections.deque(nodes[1:])
+        for node in nodes:
+            if node is not None:
+                if queue:
+                    node.left = queue.popleft()
+                if queue:
+                    node.right = queue.popleft()
+        return nodes[0]
 
 
 # Serde utils
