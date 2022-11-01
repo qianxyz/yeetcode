@@ -177,6 +177,9 @@ def deserialize(yml_obj, typ: typing.Type):
     elif typ is ListNode:
         return ListNode._deserialize(yml_obj)
 
+    elif typ is TreeNode:
+        return TreeNode._deserialize(yml_obj)
+
     elif typing.get_origin(typ) is list:
         [subtyp] = typing.get_args(typ)
         if not isinstance(yml_obj, list):
@@ -207,6 +210,9 @@ def serialize(py_obj, typ: typing.Type):
 
     elif typ is ListNode or typ is Optional[ListNode]:
         return ListNode._serialize(py_obj)
+
+    elif typ is TreeNode or typ is Optional[TreeNode]:
+        return TreeNode._serialize(py_obj)
 
     elif typing.get_origin(typ) is list:
         [subtyp] = typing.get_args(typ)
