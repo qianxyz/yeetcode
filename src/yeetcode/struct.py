@@ -1,3 +1,4 @@
+import collections
 import typing
 from typing import Optional, Union
 
@@ -80,6 +81,83 @@ class ListNode:
             raise SerdeError("unsupported type to deserialize to linked list")
 
 
+class TreeNode:
+
+    __doc__ = """
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+"""
+
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+    @property
+    def left(self):
+        return self._left
+
+    @left.setter
+    def left(self, item):
+        if not (item is None or isinstance(item, TreeNode)):
+            raise ValueError("subtree must be TreeNode or None")
+        self._left = item
+
+    @property
+    def right(self):
+        return self._right
+
+    @right.setter
+    def right(self, item):
+        if not (item is None or isinstance(item, TreeNode)):
+            raise ValueError("subtree must be TreeNode or None")
+        self._right = item
+
+    @staticmethod
+    def _serialize(node: Optional["TreeNode"]) -> list:
+        if not (node is None or isinstance(node, TreeNode)):
+            raise SerdeError(f"{node} is not an instance of TreeNode or None")
+
+        ret = []
+        queue = collections.deque([node])
+        while queue:
+            node = queue.popleft()
+            if node is not None:
+                ret.append(node.val)
+                queue.append(node.left)
+                queue.append(node.right)
+            else:
+                ret.append(None)
+
+        # trim the trailing Nones
+        while ret and ret[-1] is None:
+            ret.pop()
+        return ret
+
+    @staticmethod
+    def _deserialize(data: list) -> Optional["TreeNode"]:
+        if not isinstance(data, list):
+            raise SerdeError("cannot deserialized non-list to binary tree")
+
+        if not data:
+            return None
+
+        nodes = [None if val is None else TreeNode(val) for val in data]
+        queue = collections.deque(nodes[1:])
+        for node in nodes:
+            if node is not None:
+                if queue:
+                    node.left = queue.popleft()
+                if queue:
+                    node.right = queue.popleft()
+        return nodes[0]
+
+
 # Serde utils
 # Note that we do not really do serde through string.
 # Parsing from/to something YAML can understand is enough.
@@ -98,6 +176,9 @@ def deserialize(yml_obj, typ: typing.Type):
 
     elif typ is ListNode:
         return ListNode._deserialize(yml_obj)
+
+    elif typ is TreeNode:
+        return TreeNode._deserialize(yml_obj)
 
     elif typing.get_origin(typ) is list:
         [subtyp] = typing.get_args(typ)
@@ -129,6 +210,9 @@ def serialize(py_obj, typ: typing.Type):
 
     elif typ is ListNode or typ is Optional[ListNode]:
         return ListNode._serialize(py_obj)
+
+    elif typ is TreeNode or typ is Optional[TreeNode]:
+        return TreeNode._serialize(py_obj)
 
     elif typing.get_origin(typ) is list:
         [subtyp] = typing.get_args(typ)
