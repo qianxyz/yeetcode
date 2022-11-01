@@ -2,7 +2,7 @@ import argparse
 import importlib.metadata
 
 from .loader import load_problem, load_module
-from .struct import ListNode  # noqa: F401
+from .struct import ListNode, TreeNode  # noqa: F401
 
 
 __version__ = importlib.metadata.version(__package__)

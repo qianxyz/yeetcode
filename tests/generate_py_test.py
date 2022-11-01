@@ -34,13 +34,13 @@ class Foo:
     )
 
 
-def test_import():
-    methods = {"foo": {"s": "List[Optional[ListNode]]", "return": None}}
+def test_import_listnode():
+    methods = {"foo": {"s": "Optional[ListNode]", "return": None}}
     problem = build_problem(methods)
     assert (
         problem.generate_py()
         == """\
-from typing import List, Optional
+from typing import Optional
 from yeetcode import ListNode
 
 
@@ -50,7 +50,30 @@ from yeetcode import ListNode
 #         self.val = val
 #         self.next = next
 class Foo:
-    def foo(self, s: List[Optional[ListNode]]) -> None:
+    def foo(self, s: Optional[ListNode]) -> None:
+        pass
+"""
+    )
+
+
+def test_import_treenode():
+    methods = {"foo": {"s": "List[Optional[TreeNode]]", "return": None}}
+    problem = build_problem(methods)
+    assert (
+        problem.generate_py()
+        == """\
+from typing import List, Optional
+from yeetcode import TreeNode
+
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Foo:
+    def foo(self, s: List[Optional[TreeNode]]) -> None:
         pass
 """
     )

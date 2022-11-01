@@ -1,5 +1,5 @@
 from typing import get_type_hints
-from .struct import serialize, deserialize_kwargs, ListNode
+from .struct import serialize, deserialize_kwargs, ListNode, TreeNode
 
 
 class Problem:
@@ -33,6 +33,8 @@ class Problem:
             src += f"from yeetcode import {', '.join(sorted(structs))}\n"
         if "ListNode" in structs:
             src += ListNode.__doc__
+        if "TreeNode" in structs:
+            src += TreeNode.__doc__
 
         src += f"class {self.class_name}:\n"
         for name, args in self.methods.items():
